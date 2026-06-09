@@ -1,5 +1,5 @@
-import { executeCommand } from "./services/contactService.js";
-import promptSync from "prompt-sync";
+const { executeCommand } = require("./services/contactService.js");
+const promptSync = require("prompt-sync");
 const prompt = promptSync();
 
 const args = process.argv.slice(2);
@@ -19,5 +19,6 @@ if (cmdStatus.status === false){
 else{
     console.log("command successided")
 }
+
 
 
