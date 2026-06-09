@@ -16,15 +16,15 @@ function validateArguments(command, inputs) {
         throw validationError(`Unknown command '${command}'\nUsage: node contacts.js [add|list|search|delete|help] [arguments]`, "command");
     }
 
-    if (command === 'add' && inputs.length !== 4) {
+    if (command === 'add' && inputs.length !== 3) {
         throw validationError('Missing arguments for add command\nUsage: node contacts.js add "name" "email" "phone"', "arguments");
     }
     
-    if (command === 'delete' && inputs.length !== 2) {
+    if (command === 'delete' && inputs.length !== 1) {
         throw validationError('Missing arguments for delete command', "arguments");
     }
     
-    if (command === 'search' && inputs.length !== 2) {
+    if (command === 'search' && inputs.length !== 1) {
         throw validationError('Missing arguments for search command\nUsage: node contacts.js search "query"', "arguments");
     }
 }
@@ -64,7 +64,7 @@ export function validate(command, args) {
         validateArguments(command, args);
 
         if (command === 'add') {
-            validateContact(args[1], args[2], args[3]);
+            validateContact(args[0], args[1], args[2]);
         } 
 
         return { status: true, err: "" };
