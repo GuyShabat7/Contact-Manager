@@ -1,6 +1,6 @@
 import { readJSON, writeJSON } from "../utils/fileUtils.js";
 
-export const commandsManager = function(command, args) {
+export const processCommand = function(command, args) {
     const readResult = readJSON();
     let contacts = [];
 
