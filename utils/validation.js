@@ -73,4 +73,4 @@ function validate(command, args) {
     }
 }
 
-module.exports = validate;
+export { validate };
