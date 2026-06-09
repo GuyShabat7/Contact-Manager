@@ -1,25 +1,27 @@
-import fs from "fs";
+const fs = require("fs");
 
-const fileNmae = "contact.json:'";
+const fileName = "contact.json";
 
-export const readJSON = function () {
+function readJSON() {
   let retValue = { status: false, data: null, err: null };
   try {
-    const data = JSON.parse(fs.readFileSync(fileNmae, "utf8"));
+    const data = JSON.parse(fs.readFileSync(fileName, "utf8"));
     retValue = { status: true, data: data, err: null };
   } catch (err) {
     retValue.err = err;
   }
   return retValue;
-};
+}
 
-export const writeJSON = function (data) {
+function writeJSON(data) {
   let retValue = { status: false, err: null };
   try {
-    fs.writeFileSync(fileNmae, JSON.stringify(data));
-    retValue .status = true;
+    fs.writeFileSync(fileName, JSON.stringify(data));
+    retValue.status = true;
   } catch (err) {
     retValue.err = err;
   }
   return retValue;
-};
+}
+
+module.exports = { readJSON, writeJSON };

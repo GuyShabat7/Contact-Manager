@@ -1,14 +1,15 @@
 
-import { validate } from "../utils/validation.js";
-import { processCommand } from "../commands/commandHandler.js";
-export const executeCommand = function(command, args){
-    //utils validation
-    const cmdValidity = validate(command, args);
+const { validate } = require("../utils/validation.js");
+const { processCommand } = require("../commands/commandHandler.js");
 
-    if (cmdValidity.status === true)
-    {
-        cmdValidity.status = processCommand(command, args);
-    }
-    return cmdValidity;
+function executeCommand(command, args) {
+  let cmdValidity = validate(command, args);
+
+  if (cmdValidity.status === true) {
+    cmdValidity= processCommand(command, args);
+  }
+  return cmdValidity;
 }
+
+module.exports = { executeCommand };
 
