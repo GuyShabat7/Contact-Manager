@@ -59,7 +59,7 @@ function validateContact(name, email, phone) {
     validatePhone(phone);
 }
 
-function validate(command, args) {
+export function validate(command, args) {
     try {
         validateArguments(command, args);
 
@@ -72,5 +72,3 @@ function validate(command, args) {
         return { status: false, err: error.message };
     }
 }
-
-export { validate };

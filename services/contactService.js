@@ -1,6 +1,6 @@
 
-import { validate } from "./utils/validation.js";
-import { processCommand } from "./commands/commandHnadler.js";
+import { validate } from "../utils/validation.js";
+import { processCommand } from "../commands/commandHandler.js";
 export const executeCommand = function(command, args){
     //utils validation
     const cmdValidity = validate(command, args);
