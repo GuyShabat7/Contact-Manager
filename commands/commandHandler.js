@@ -17,16 +17,16 @@ function processCommand(command, args) {
 
       if (duplicate) {
         const field = duplicate.email === args[1] ? "email" : "phone";
-        return { status: false, err: `Error: Contact with this ${field} already exists` };
+        return { status: false, err: `Error: Contact with this ${field} already exists`, message: "" };
       }
 
       contacts.push({ name: args[0], email: args[1], phone: args[2] });
       const writeResult = writeJSON(contacts);
 
       if (writeResult.status === false) {
-        return { status: false, err: writeResult.err };
+        return { status: false, err: writeResult.err, message: "" };
       }
-      return { status: true, err: "" };
+      return { status: true, err: "", message: "" };
     }
 
     case "delete": {
@@ -44,26 +44,24 @@ function processCommand(command, args) {
           : /^[\d\s\-()+]+$/.test(identifier)
           ? "phone"
           : "name";
-        return { status: false, err: `Error: No contact found with ${type}: ${identifier}` };
+        return { status: false, err: `Error: No contact found with ${type}: ${identifier}`, message: "" };
       }
 
       contacts = contacts.filter((contact) => contact !== deleted);
       const writeResult = writeJSON(contacts);
 
       if (writeResult.status === false) {
-        return { status: false, err: writeResult.err };
+        return { status: false, err: writeResult.err, message: "" };
       }
-      return { status: true, err: "" };
+      return { status: true, err: "", message: `Contact deleted: ${deleted.name}` };
     }
 
     case "list": {
-      console.log("=== All Contacts ===");
+      const lines = ["=== All Contacts ==="];
       contacts.forEach((contact, index) => {
-        console.log(
-          `${index + 1}. ${contact.name} - ${contact.email} - ${contact.phone}`
-        );
+        lines.push(`${index + 1}. ${contact.name} - ${contact.email} - ${contact.phone}`);
       });
-      return { status: true, err: "" };
+      return { status: true, err: "", message: lines.join("\n") };
     }
 
     case "search": {
@@ -74,36 +72,36 @@ function processCommand(command, args) {
           contact.email.includes(query) ||
           contact.phone.includes(query)
       );
-      console.log(`=== Search Results for "${query}" ===`);
+      const lines = [`=== Search Results for "${query}" ===`];
       if (results.length === 0) {
-        console.log(`No contacts found matching "${query}"`);
+        lines.push(`No contacts found matching "${query}"`);
       } else {
         results.forEach((contact, index) => {
-          console.log(
-            `${index + 1}. ${contact.name} - ${contact.email} - ${contact.phone}`
-          );
+          lines.push(`${index + 1}. ${contact.name} - ${contact.email} - ${contact.phone}`);
         });
       }
-      return { status: true, err: "" };
+      return { status: true, err: "", message: lines.join("\n") };
     }
 
     case "help": {
-      console.log("Commands:");
-      console.log('  add "name" "email" "phone"  - Add a new contact');
-      console.log("  list                        - List all contacts");
-      console.log('  search "query"              - Search contacts by name or email');
-      console.log('  delete "email"              - Delete contact by email');
-      console.log("  help                        - Show this help message");
-      console.log("");
-      console.log("Examples:");
-      console.log('  node contacts.js add "John Doe" "john@example.com" "555-123-4567"');
-      console.log('  node contacts.js search "john"');
-      console.log('  node contacts.js delete "john@example.com"');
-      return { status: true, err: "" };
+      const lines = [
+        "Commands:",
+        '  add "name" "email" "phone"  - Add a new contact',
+        "  list                        - List all contacts",
+        '  search "query"              - Search contacts by name or email',
+        '  delete "email"              - Delete contact by email',
+        "  help                        - Show this help message",
+        "",
+        "Examples:",
+        '  node contacts.js add "John Doe" "john@example.com" "555-123-4567"',
+        '  node contacts.js search "john"',
+        '  node contacts.js delete "john@example.com"',
+      ];
+      return { status: true, err: "", message: lines.join("\n") };
     }
 
     default:
-      return { status: true, err: "" };
+      return { status: true, err: "", message: "" };
   }
 }
 
